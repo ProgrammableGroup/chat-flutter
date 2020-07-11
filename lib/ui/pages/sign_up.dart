@@ -1,6 +1,7 @@
 import 'package:chat_flutter/config/app_radius.dart';
 import 'package:chat_flutter/config/app_space.dart';
 import 'package:chat_flutter/ui/atoms/input_text_field.dart';
+import 'package:chat_flutter/ui/pages/sign_in.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chat_flutter/config/app_text_size.dart';
@@ -101,8 +102,12 @@ class SignUpPage extends StatelessWidget {
                   ),
                   FlatButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(
-                        '/signInPage',
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return SignInPage();
+                          },
+                        ),
                       );
                     },
                     child: Text(
