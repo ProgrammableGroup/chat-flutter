@@ -6,20 +6,11 @@ import 'package:flutter/rendering.dart';
 
 import 'package:chat_flutter/config/app_text_size.dart';
 
-class RoomPage extends StatefulWidget {
-  final String name;
-  RoomPage(this.name);
-  //本来はfirebase上のIDを渡して、ルーム名を取得したい。
-  @override
-  _RoomPageState createState() => _RoomPageState(this.name);
-}
-
-class _RoomPageState extends State<RoomPage> {
-  final String name;
-  _RoomPageState(this.name);
+class RoomPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String name = ModalRoute.of(context).settings.arguments;
     final TextEditingController _controller = TextEditingController();
     return Scaffold(
       appBar: AppBar(

@@ -1,6 +1,5 @@
 import 'package:chat_flutter/config/app_space.dart';
 import 'package:chat_flutter/config/app_text_size.dart';
-import 'package:chat_flutter/ui/pages/room.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_flutter/model/room.dart';
 
@@ -11,11 +10,9 @@ class TalkPageListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlatButton(
       onPressed: () {
-        Navigator.push(
+        Navigator.pushNamed(
           context,
-          MaterialPageRoute(
-            builder: (context) => RoomPage(room.name),
-          ),
+          '/roomPage',arguments: room.name,
         );
       },
       child: SizedBox(

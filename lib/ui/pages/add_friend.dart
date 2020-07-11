@@ -24,7 +24,7 @@ class AddFriendPage extends StatelessWidget {
             ),
           ),
         ),
-        actionsIconTheme: IconThemeData(
+        iconTheme: IconThemeData(
           color: Color(0xff707070),
         ),
         actions: <Widget>[

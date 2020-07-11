@@ -21,11 +21,13 @@ class CreateGroupPage extends StatelessWidget {
           ),
         ),
         iconTheme: IconThemeData(
-          color: Colors.blue,
+          color: Color(0xff707070),
         ),
         actions: <Widget>[
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
             icon: Icon(
               Icons.check,
             ),

@@ -17,7 +17,7 @@ class ProfilePage extends StatelessWidget {
       future: userProvider.getUserById("userId"),
       builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
         if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Center(child: Text('Error: ${snapshot.error}'));
         }
         switch (snapshot.connectionState) {
           case ConnectionState.waiting: // データの取得まち

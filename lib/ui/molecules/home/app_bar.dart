@@ -19,17 +19,21 @@ class HomePageAppBar extends StatelessWidget with PreferredSizeWidget {
       actions: <Widget>[
         IconButton(
           icon: Icon(
-            Icons.add_circle_outline,
+            Icons.person_add,
           ),
           color: Color(0xff707070),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, '/addFriendPage');
+          },
         ),
         IconButton(
           icon: Icon(
-            Icons.add_circle_outline,
+            Icons.group_add,
           ),
           color: Color(0xff707070),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, '/createGroupPage');
+          },
         ),
       ],
     );
