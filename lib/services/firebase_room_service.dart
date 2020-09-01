@@ -26,19 +26,4 @@ class FirebaseRoomService {
         .document(roomId)
         .setData(settingData);
   }
-
-  Future getStreamSnapshot(String uid) async {
-    final QuerySnapshot querySnapshot = await _db
-        .collection('message/v1/users/$uid/room_setting')
-        .getDocuments();
-    final List<DocumentSnapshot> docList = querySnapshot.documents;
-    final List<String> roomIdList =
-        docList.map((doc) => doc.documentID).toList();
-    final List roomList = roomIdList.map((roomId) async {
-      final DocumentSnapshot room =
-          await _db.collection('message/v1/rooms/$roomId').document().get();
-      return Room.fromJson(room.data, roomId);
-    }).toList();
-    return roomList;
-  }
 }
