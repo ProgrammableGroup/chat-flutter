@@ -14,4 +14,15 @@ class Room {
     this.lastMessage,
     this.sendTime,
   });
+
+  factory Room.fromJson(Map<String, dynamic> json, String roomId) {
+    return Room(
+      id: roomId,
+      name: json['name'].toString(),
+      imgUrl: json['ImgUrl'].toString(),
+      members: json['members'] as List<String>,
+      lastMessage: json['lastMessage'].toString(),
+      sendTime: json['sendTime'].toString(),
+    );
+  }
 }

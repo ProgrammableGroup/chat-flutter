@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_flutter/model/room.dart';
 
@@ -33,4 +34,6 @@ class TalkController with ChangeNotifier {
     await Future<dynamic>.delayed(const Duration(seconds: 1));
     notifyListeners();
   }
+
+  
 }
