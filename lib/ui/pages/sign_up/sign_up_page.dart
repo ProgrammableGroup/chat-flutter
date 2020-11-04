@@ -1,7 +1,9 @@
 import 'package:chat_flutter/config/app_radius.dart';
 import 'package:chat_flutter/config/app_space.dart';
 import 'package:chat_flutter/services/auth/authenticator.dart';
+import 'package:chat_flutter/ui/atoms/error_dialog.dart';
 import 'package:chat_flutter/ui/atoms/input_text_field.dart';
+import 'package:chat_flutter/ui/pages/profile/profile_controller.dart';
 import 'package:chat_flutter/ui/pages/sign_up/sign_up_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +22,7 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Provider.of<SignUpController>(context, listen: false);
+    final controller = Provider.of<SignUpController>(context);
     return Scaffold(
       backgroundColor: Colors.white70,
       body: Column(
@@ -104,12 +106,26 @@ class SignUpPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(AppRadius.xlarge),
                     ),
                     onPressed: () async {
-                      try {
-                        await controller.signUp();
-                        await Navigator.pushNamed(context, '/homePage');
-                      } on Exception catch (e) {
-                        // TODO: error handling
-                        debugPrint(e.toString());
+                      if (controller.name == null ||
+                          controller.email == null ||
+                          controller.password == null) {
+                        const String message =
+                            'Name,Email and password should not be empty.';
+                        await showDialog<void>(
+                            context: context,
+                            builder: (context) => const ErrorDialog(message));
+                      } else {
+                        try {
+                          await controller.signUp();
+                          await Provider.of<ProfileController>(context,
+                                  listen: false)
+                              .getUserById();
+                          await Navigator.pushNamed(context, '/homePage');
+                        } on Exception catch (e) {
+                          await showDialog<void>(
+                              context: context,
+                              builder: (context) => ErrorDialog(e.toString()));
+                        }
                       }
                     },
                   ),

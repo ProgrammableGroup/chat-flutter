@@ -3,10 +3,10 @@ import 'package:rxdart/rxdart.dart';
 
 class Authenticator {
   Authenticator() {
-    _isSignIn.value = firebaseUser.value != null;
+    _isSignIn.value = _firebaseUser.value != null;
     _firebaseAuth.onAuthStateChanged.pipe(_firebaseUser);
     _firebaseAuth.onAuthStateChanged
-        .map((firebaseUser) => firebaseUser != null)
+        .map((firebaseUser) => _firebaseUser != null)
         .pipe(_isSignIn);
   }
 
@@ -50,6 +50,9 @@ class Authenticator {
 
   Future<String> getUid() async {
     final current = await fetchFirebaseUser();
+    if (current == null) {
+      return '';
+    }
     return current.uid;
   }
 

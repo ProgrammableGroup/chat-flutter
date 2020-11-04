@@ -1,6 +1,6 @@
 import 'package:chat_flutter/config/app_space.dart';
 import 'package:chat_flutter/model/user.dart';
-import 'package:chat_flutter/ui/atoms/profile_image.dart';
+import 'package:chat_flutter/ui/atoms/my_profile_image.dart';
 import 'package:chat_flutter/ui/pages/profile/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +32,7 @@ class _ProfilePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const ProfileImage(
+          const MyProfileImage(
             size: 150,
           ),
           const SizedBox(

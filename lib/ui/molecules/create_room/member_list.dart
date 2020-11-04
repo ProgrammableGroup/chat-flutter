@@ -15,7 +15,7 @@ class MemberList extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return Container(
             height: 40,
-            margin: EdgeInsets.all(AppSpace.small),
+            margin: const EdgeInsets.all(AppSpace.small),
             child: FlatButton(
               onPressed: () {
                 controller.removeMember(controller.members[index]);
@@ -26,7 +26,7 @@ class MemberList extends StatelessWidget {
               color: Colors.blue,
               child: Text(
                 controller.members[index].name,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                 ),
               ),

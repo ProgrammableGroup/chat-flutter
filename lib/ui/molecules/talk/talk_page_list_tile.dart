@@ -1,5 +1,8 @@
 import 'package:chat_flutter/config/app_space.dart';
 import 'package:chat_flutter/config/app_text_size.dart';
+import 'package:chat_flutter/ui/atoms/circular_image.dart';
+import 'package:chat_flutter/util/common_func_util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_flutter/model/room.dart';
 
@@ -24,14 +27,7 @@ class TalkPageListTile extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(
-                height: 60,
-                width: 60,
-                child: CircleAvatar(
-                  radius: double.infinity,
-                  backgroundImage: NetworkImage(room.imgUrl),
-                ),
-              ),
+              CircularImage(size: 60, imgUrl: room.imgUrl),
               const SizedBox(
                 width: AppSpace.midium,
               ),
@@ -49,7 +45,7 @@ class TalkPageListTile extends StatelessWidget {
                         Flexible(
                           child: Text(
                             room.name,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: AppTextSize.midium,
                               fontWeight: FontWeight.bold,
                             ),
@@ -57,8 +53,11 @@ class TalkPageListTile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          room.sendTime,
-                          style: TextStyle(
+                          CommonFuncUtil.dateTimeToString(
+                            (room.lastMessage['createdAt'] as Timestamp)
+                                .toDate(),
+                          ),
+                          style: const TextStyle(
                             fontSize: AppTextSize.xsmall,
                             color: Colors.grey,
                           ),
@@ -67,8 +66,8 @@ class TalkPageListTile extends StatelessWidget {
                     ),
                     Flexible(
                       child: Text(
-                        room.lastMessage,
-                        style: TextStyle(
+                        room.lastMessage['text'].toString(),
+                        style: const TextStyle(
                           fontSize: AppTextSize.small,
                           color: Colors.grey,
                         ),

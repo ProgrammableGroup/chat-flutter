@@ -1,7 +1,9 @@
 import 'package:chat_flutter/config/app_radius.dart';
 import 'package:chat_flutter/config/app_space.dart';
 import 'package:chat_flutter/services/auth/authenticator.dart';
+import 'package:chat_flutter/ui/atoms/error_dialog.dart';
 import 'package:chat_flutter/ui/atoms/input_text_field.dart';
+import 'package:chat_flutter/ui/pages/profile/profile_controller.dart';
 import 'package:chat_flutter/ui/pages/sign_in/sign_in_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -28,11 +30,11 @@ class SignInPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               left: AppSpace.midium,
               top: AppSpace.big,
             ),
-            child: Text(
+            child: const Text(
               'SIGN IN',
               style: TextStyle(
                 fontSize: AppTextSize.big,
@@ -40,12 +42,12 @@ class SignInPage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: AppSpace.big,
           ),
           Expanded(
             child: Container(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 left: AppSpace.midium,
                 top: AppSpace.xlarge,
                 right: AppSpace.midium,
@@ -72,20 +74,20 @@ class SignInPage extends StatelessWidget {
                         obscureText: true,
                         controller: controller.passwordTextController,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: AppSpace.big,
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: AppSpace.large,
                   ),
                   RaisedButton(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: AppSpace.big,
                       vertical: AppSpace.small,
                     ),
-                    child: Text(
+                    child: const Text(
                       'Start',
                       style: TextStyle(
                         fontSize: AppTextSize.xlarge,
@@ -96,25 +98,43 @@ class SignInPage extends StatelessWidget {
                     color: Colors.white,
                     elevation: 3,
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(
+                      side: const BorderSide(
                         style: BorderStyle.solid,
                         color: Colors.grey,
                       ),
                       borderRadius: BorderRadius.circular(AppRadius.xlarge),
                     ),
                     onPressed: () async {
-                      await controller.signIn();
-                      await Navigator.pushNamed(context, '/homePage');
+                      if (controller.email == null ||
+                          controller.password == null) {
+                        const String message =
+                            'Emails and passwords should not be empty.';
+                        await showDialog<void>(
+                            context: context,
+                            builder: (context) => const ErrorDialog(message));
+                      } else {
+                        try {
+                          await controller.signIn();
+                          await Provider.of<ProfileController>(context,
+                                  listen: false)
+                              .getUserById();
+                          await Navigator.pushNamed(context, '/homePage');
+                        } on Exception catch (e) {
+                          await showDialog<void>(
+                              context: context,
+                              builder: (context) => ErrorDialog(e.toString()));
+                        }
+                      }
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: AppSpace.large,
                   ),
                   FlatButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/signUpPage');
                     },
-                    child: Text(
+                    child: const Text(
                       'SIGN UP',
                       style: TextStyle(
                         fontSize: AppTextSize.large,

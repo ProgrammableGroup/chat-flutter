@@ -47,7 +47,7 @@ class CreateRoomPage extends StatelessWidget {
               ).createRoom(members, _textEditingController.text);
               await Navigator.pushReplacementNamed(context, '/homePage');
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.check,
             ),
           ),
@@ -73,20 +73,20 @@ class CreateRoomPage extends StatelessWidget {
             width: 250,
             child: TextField(
               controller: _textEditingController,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: AppTextSize.xlarge,
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: AppSpace.big,
           ),
-          Align(
+          const Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: const EdgeInsets.only(
+              padding: EdgeInsets.only(
                 left: AppSpace.midium,
               ),
               child: Text(

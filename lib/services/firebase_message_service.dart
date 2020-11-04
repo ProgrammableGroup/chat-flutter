@@ -9,22 +9,27 @@ class FirebaseMessageService {
       'from': message.senderId,
       'to': message.roomId,
       'text': message.text,
-      'createdAt': message.sendTime,
+      'createdAt': FieldValue.serverTimestamp(),
     };
+    final updateData = {'lastMessage': messageData};
     await _db
         .collection('message/v1/rooms/${message.roomId}/transcripts')
         .document()
         .setData(messageData);
+    await _db
+        .collection('message/v1/rooms')
+        .document('${message.roomId}')
+        .updateData(updateData);
   }
 
-  Stream<List<Message>> getMessageData(String roomId) {
+  Stream<List<Message>> getMessageData(String roomId, String userId) {
     final Stream<QuerySnapshot> querySnapshot = _db
         .collection('message/v1/rooms/$roomId/transcripts')
         .orderBy('createdAt', descending: false)
         .snapshots();
     return querySnapshot.map((snapshot) {
       return snapshot.documents.map((doc) {
-        return Message.fromJson(doc.data);
+        return Message.fromJson(doc.data, userId);
       }).toList();
     });
   }

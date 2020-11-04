@@ -9,13 +9,12 @@ class MessageService implements MessageInterface {
       text: text,
       senderId: senderId,
       roomId: roomId,
-      sendTime: DateTime.now(),
     );
     await FirebaseMessageService().setMessageData(message);
   }
 
   @override
-  Stream<List<Message>> getMessage(String roomId) {
-    return FirebaseMessageService().getMessageData(roomId);
+  Stream<List<Message>> getMessage(String roomId, String userId) {
+    return FirebaseMessageService().getMessageData(roomId, userId);
   }
 }

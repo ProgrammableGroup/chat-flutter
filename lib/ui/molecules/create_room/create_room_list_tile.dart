@@ -1,5 +1,6 @@
 import 'package:chat_flutter/config/app_space.dart';
 import 'package:chat_flutter/model/user.dart';
+import 'package:chat_flutter/ui/atoms/circular_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chat_flutter/config/app_text_size.dart';
@@ -17,13 +18,9 @@ class CreateRoomListTile extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          SizedBox(
-            height: 50,
-            width: 50,
-            child: CircleAvatar(
-              radius: double.infinity,
-              backgroundImage: NetworkImage(user.imgUrl),
-            ),
+          CircularImage(
+            size: 50,
+            imgUrl: user.imgUrl,
           ),
           const SizedBox(
             width: AppSpace.midium,
@@ -31,7 +28,7 @@ class CreateRoomListTile extends StatelessWidget {
           Expanded(
             child: Text(
               user.name,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: AppTextSize.midium,
                 fontWeight: FontWeight.bold,
               ),

@@ -1,52 +1,59 @@
-import 'package:chat_flutter/model/user.dart';
-import 'package:chat_flutter/ui/pages/profile/profile_controller.dart';
+import 'package:chat_flutter/model/room.dart';
+import 'package:chat_flutter/ui/atoms/my_room_image.dart';
+import 'package:chat_flutter/ui/pages/room/room_controller.dart';
+import 'package:chat_flutter/ui/pages/room/room_edit_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
-import 'package:chat_flutter/ui/atoms/profile_image.dart';
 import 'package:chat_flutter/config/app_space.dart';
 import 'package:chat_flutter/config/app_text_size.dart';
+import 'package:provider/provider.dart';
 
-class ProfileEditPage extends StatelessWidget {
+class RoomEditPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<ProfileController>(context).user;
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Profile',
-          style: TextStyle(
+    final RoomController roomController =
+        ModalRoute.of(context).settings.arguments as RoomController;
+    final room = roomController.room;
+    return ChangeNotifierProvider<RoomEditController>(
+      create: (_) => RoomEditController(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Room',
+            style: TextStyle(
+              color: Color(0xff707070),
+            ),
+          ),
+          backgroundColor: Colors.white,
+          iconTheme: const IconThemeData(
             color: Color(0xff707070),
           ),
         ),
         backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(
-          color: Color(0xff707070),
-        ),
+        body: (room == null)
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : _RoomEditPage(
+                roomController: roomController,
+              ),
       ),
-      backgroundColor: Colors.white,
-      body: (user == null)
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : _ProfileEditPage(
-              user: user,
-            ),
     );
   }
 }
 
-class _ProfileEditPage extends StatelessWidget {
-  final User user;
+class _RoomEditPage extends StatelessWidget {
+  final RoomController roomController;
 
-  const _ProfileEditPage({Key key, this.user}) : super(key: key);
+  const _RoomEditPage({Key key, this.roomController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final profileController =
-        Provider.of<ProfileController>(context, listen: false);
+    final Room room = roomController.room;
+    final RoomEditController roomEditController =
+        Provider.of<RoomEditController>(context);
     final TextEditingController nameController = TextEditingController(
-      text: user.name,
+      text: room.name,
     );
     return SafeArea(
       child: Column(
@@ -60,16 +67,14 @@ class _ProfileEditPage extends StatelessWidget {
                 source: ImageSource.gallery,
               );
               if (selectImage != null) {
-                Provider.of<ProfileController>(
-                  context,
-                  listen: false,
-                ).notifySelectImage(
+                roomEditController.notifySelectImage(
                   selectImage.path,
                 );
               }
             },
-            child: const ProfileImage(
+            child: MyRoomImage(
               size: 150,
+              roomController: roomController,
             ),
           ),
           const SizedBox(
@@ -84,6 +89,7 @@ class _ProfileEditPage extends StatelessWidget {
               minLines: 1,
               maxLines: 1,
               controller: nameController,
+              textInputAction: TextInputAction.done,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: AppTextSize.xlarge,
@@ -104,8 +110,8 @@ class _ProfileEditPage extends StatelessWidget {
                 ),
                 label: const Text('更新する'),
                 onPressed: () async {
-                  await profileController
-                      .changeProfileInfo(nameController.text);
+                  await roomController.changeRoomInfo(nameController.text,
+                      roomEditController.selectedImageFile);
                   Navigator.of(context).pop();
                 },
                 color: Colors.redAccent,

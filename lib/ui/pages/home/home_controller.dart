@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 class HomeController with ChangeNotifier {
   HomeController(this.authenticator) {
     currentIndex = 0;
-
     authenticator.isSignIn.listen((value) {
       _isSignIn = value;
     });
   }
 
-  //TODO:  AuthControllerを作るか迷い中
   final Authenticator authenticator;
   int currentIndex;
 
